@@ -24,8 +24,14 @@ playRound = (playerSelection, computerSelection) => {
 }
 
 game = () => {
-    let score = 0
+    let score = 0;
     for (let i = 0; i < 5; i++) {
-        //TODO: Start from step 6 part 3
+        let playerSelection = prompt("Rock, paper, scissors?");
+        let response = playRound(playerSelection, getComputerChoice());
+        if (response.includes("win"))
+            ++score;
     }
+    alert(`Heres your score: ${score}`);
 }
+
+game();
