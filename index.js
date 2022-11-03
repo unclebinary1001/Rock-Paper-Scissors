@@ -1,10 +1,13 @@
-console.log("I am working")
+let score = 0;
+let turns = 0;
 
-getComputerChoice = () => {
-    const choices = ["Rock", "Paper", "Scissors"];
-    let selection = Math.floor(Math.random() * 3);
-    return choices[selection];
-}
+const  buttons = document.querySelectorAll('.option');
+const response = document.querySelector('#results');
+const message = document.querySelector('#msg');
+
+response.textContent = '';
+message.textContent = '';
+buttons.forEach(button => button.addEventListener('click', playerChoice));
 
 playRound = (playerSelection, computerSelection) => {
     if (
@@ -23,15 +26,25 @@ playRound = (playerSelection, computerSelection) => {
         return `You Lose! ${computerSelection} beats ${playerSelection}`;
 }
 
-game = () => {
-    let score = 0;
-    for (let i = 0; i < 5; i++) {
-        let playerSelection = prompt("Rock, paper, scissors?");
-        let response = playRound(playerSelection, getComputerChoice());
-        if (response.includes("win"))
-            ++score;
-    }
-    alert(`Heres your score: ${score}`);
+getComputerChoice = () => {
+    const choices = ["Rock", "Paper", "Scissors"];
+    let selection = Math.floor(Math.random() * 3);
+    return choices[selection];
 }
 
-game();
+function playerChoice(e) {
+    response.textContent = '';
+    let playerSelection = e.target.id;
+    let result = playRound(playerSelection, getComputerChoice());
+    ++turns;
+    message.textContent = result;
+    if (result.includes("win"))
+        ++score;
+    if (turns == 5) {
+        let winner = (score==turns)? "You win": "Sorry you lose, Computer Wins\n";
+        message.textContent = '';
+        response.textContent = `${winner} Heres your score: ${score}`;
+        score = 0;
+        turns = 0;
+    };
+};
